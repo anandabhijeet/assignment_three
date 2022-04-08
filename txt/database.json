@@ -1,0 +1,34 @@
+{
+  "persons": [
+    {
+      "id": 0,
+      "name": "john",
+      "email": "john@gmail.com",
+      "password": "mb0123"
+    },
+    {
+      "id": 1,
+      "name": "phil",
+      "email": "phil@gmail.com",
+      "password": "mb0234"
+    },
+    {
+      "id": 2,
+      "name": "jack",
+      "email": "jack@gmail.com",
+      "password": "mb0345"
+    },
+    {
+      "id": 4,
+      "name": "abhi",
+      "email": "abhi@gmail.com",
+      "password": "mb0678"
+    },
+    {
+      "id": 5,
+      "name": "jackson",
+      "email": "jackson@gmail.com",
+      "password": "mb0345"
+    }
+  ]
+}
