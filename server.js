@@ -33,7 +33,7 @@ const server = http.createServer((req, res) => {
 
   //trying to write patch method
   if (pathname === "/:id" && method === "PATCH") {
-    console.log(req.param.id);
+    // console.log(req.param.id);
     console.log("update");
 
     res.end("updating user details....");
