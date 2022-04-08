@@ -1,6 +1,7 @@
 const fs = require("fs");
 const http = require("http");
 
+//async method for reading file
 const readFilePro = async (file) => {
   return new Promise((resolve, reject) => {
     fs.readFile(file, "utf-8", (error, data) => {
@@ -12,6 +13,7 @@ const readFilePro = async (file) => {
   });
 };
 
+//async fs method for writting file
 const writeFilePro = async (file, data) => {
   return new Promise((resolve, reject) => {
     fs.writeFile(file, data, (error) => {
@@ -23,16 +25,21 @@ const writeFilePro = async (file, data) => {
   });
 };
 
+//creating server
 const server = http.createServer((req, res) => {
   const pathname = req.url;
   const method = req.method;
   let found = false;
 
-  if (pathname === "/:id" && method === "PATCH") { 
-    console.log("update")
+  //trying to write patch method
+  if (pathname === "/:id" && method === "PATCH") {
+    console.log(req.param.id);
+    console.log("update");
 
-    res.end("updating user details....")
-  } else if (pathname === "/delete" && method === "DELETE") {
+    res.end("updating user details....");
+  }
+  //delete method
+  else if (pathname === "/delete" && method === "DELETE") {
     var idData = "";
     req.on("data", (chunks) => {
       idData = idData + chunks;
@@ -78,7 +85,9 @@ const server = http.createServer((req, res) => {
         res.end("<h1>Invalid idl</h1>");
       }
     });
-  } else if (pathname === "/login" && method === "POST") {
+  }
+  //login method
+  else if (pathname === "/login" && method === "POST") {
     var userCredentials = "";
     req.on("data", (chunks) => {
       userCredentials = userCredentials + chunks;
@@ -113,7 +122,9 @@ const server = http.createServer((req, res) => {
         res.end("<h1>Invalid Credential</h1>");
       }
     });
-  } else if (pathname === "/register" && method === "POST") {
+  }
+  //register method
+  else if (pathname === "/register" && method === "POST") {
     var newUser = "";
     req.on("data", (chunks) => {
       newUser = newUser + chunks;
@@ -131,32 +142,31 @@ const server = http.createServer((req, res) => {
         }
       );
 
-      console.log(newUserObj); 
+      console.log(newUserObj);
 
-      for (let i = 0; i < userData.persons.length; i++) { 
-        
+      for (let i = 0; i < userData.persons.length; i++) {
         if (userData.persons[i].email == newUserObj.email) {
-          console.log(newUserObj.email + " already exist") 
-          res.end("User already exist!!!"); 
+          console.log(newUserObj.email + " already exist");
+          res.end("User already exist!!!");
           found = true;
-        } 
+        }
       }
-      if(!found){
+      if (!found) {
         const newId =
-            userDatabase.persons[userDatabase.persons.length - 1].id + 1;
-          const newUserObject = Object.assign({ id: newId }, newUserObj);
+          userDatabase.persons[userDatabase.persons.length - 1].id + 1;
+        const newUserObject = Object.assign({ id: newId }, newUserObj);
 
-          userDatabase.persons.push(newUserObject);
-          console.log("users" + JSON.stringify(userDatabase, null, 2));
+        userDatabase.persons.push(newUserObject);
+        console.log("users" + JSON.stringify(userDatabase, null, 2));
 
-          await writeFilePro(
-            "./txt/database.json",
-            JSON.stringify(userDatabase, null, 2)
-          ).catch((error) => {
-            console.log(error);
-          });
+        await writeFilePro(
+          "./txt/database.json",
+          JSON.stringify(userDatabase, null, 2)
+        ).catch((error) => {
+          console.log(error);
+        });
 
-          res.end("success");
+        res.end("success");
         res.end("new user found");
       }
     });
